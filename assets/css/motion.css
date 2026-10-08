@@ -1,0 +1,128 @@
+/* =========================================================
+   ABRM
+   MOTION STATES
+========================================================= */
+
+
+/* INTRO */
+
+.intro__brand {
+  transform:
+    translateY(115%);
+}
+
+.intro__rule span {
+  transform:
+    scaleX(0);
+}
+
+.intro__caption {
+  opacity: 0;
+}
+
+
+/* HEADER */
+
+.header {
+  opacity: 0;
+
+  transform:
+    translateY(-12px);
+}
+
+
+/* HERO */
+
+.hero__top {
+  opacity: 0;
+}
+
+.hero__first > span {
+  transform:
+    translateY(115%);
+}
+
+.hero__photo-reveal {
+  clip-path:
+    inset(0 100% 0 0);
+}
+
+.hero__image {
+  transform:
+    scale(1.09);
+}
+
+.hero__middle {
+  opacity: 0;
+
+  transform:
+    translateX(-40px);
+}
+
+.hero__last > span {
+  transform:
+    translateY(115%);
+}
+
+.hero__footer {
+  opacity: 0;
+
+  transform:
+    translateY(18px);
+}
+
+
+/* ABOUT */
+
+.reveal {
+  opacity: 0;
+
+  transform:
+    translateY(30px);
+
+  transition:
+    opacity .9s var(--ease),
+    transform .9s var(--ease);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+
+  transform:
+    translateY(0);
+}
+
+.line-mask > span {
+  transform:
+    translateY(115%);
+
+  transition:
+    transform 1.05s var(--ease);
+}
+
+.line-mask.is-visible > span {
+  transform:
+    translateY(0);
+}
+
+
+/* TICKER */
+
+.ticker__track {
+  animation:
+    abrmTicker 28s linear infinite;
+}
+
+@keyframes abrmTicker {
+
+  from {
+    transform:
+      translateX(0);
+  }
+
+  to {
+    transform:
+      translateX(-50%);
+  }
+
+}
