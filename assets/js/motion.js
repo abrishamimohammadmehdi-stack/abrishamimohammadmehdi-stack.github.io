@@ -1,76 +1,52 @@
 (() => {
   "use strict";
 
+  /* ======================================================
+     ENVIRONMENT
+  ====================================================== */
 
-  const reduceMotion =
-    window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
+  const doc = document;
+  const body = doc.body;
 
+  const reducedMotionQuery =
+    window.matchMedia("(prefers-reduced-motion: reduce)");
 
-  const finePointer =
-    window.matchMedia(
-      "(pointer: fine)"
-    ).matches;
+  const finePointerQuery =
+    window.matchMedia("(pointer: fine)");
 
+  const reduceMotion = reducedMotionQuery.matches;
+  const finePointer = finePointerQuery.matches;
 
-  const $ =
-    selector =>
-      document.querySelector(selector);
+  const $ = selector => doc.querySelector(selector);
 
+  const easeOut = "cubic-bezier(.16,1,.3,1)";
+  const easeEditorial = "cubic-bezier(.76,0,.24,1)";
 
 
   /* ======================================================
      ELEMENTS
   ====================================================== */
 
-  const intro =
-    $(".intro");
+  const intro = $(".intro");
+  const introBrand = $(".intro__brand");
+  const introRule = $(".intro__rule span");
+  const introCaption = $(".intro__caption");
 
-  const introBrand =
-    $(".intro__brand");
+  const header = $(".header");
 
-  const introRule =
-    $(".intro__rule span");
+  const hero = $(".hero");
+  const heroTop = $(".hero__top");
 
-  const introCaption =
-    $(".intro__caption");
+  const first = $(".hero__first > span");
+  const photo = $(".hero__photo");
+  const photoReveal = $(".hero__photo-reveal");
+  const image = $(".hero__image");
 
+  const middle = $(".hero__middle");
+  const last = $(".hero__last > span");
 
-  const header =
-    $(".header");
-
-
-  const hero =
-    $(".hero");
-
-  const heroTop =
-    $(".hero__top");
-
-  const first =
-    $(".hero__first > span");
-
-  const photo =
-    $(".hero__photo");
-
-  const photoReveal =
-    $(".hero__photo-reveal");
-
-  const image =
-    $(".hero__image");
-
-  const middle =
-    $(".hero__middle");
-
-  const last =
-    $(".hero__last > span");
-
-  const footer =
-    $(".hero__footer");
-
-  const progress =
-    $(".hero__progress span");
-
+  const footer = $(".hero__footer");
+  const progress = $(".hero__progress span");
 
 
   /* ======================================================
@@ -80,24 +56,30 @@
   const play = (
     element,
     keyframes,
-    options
+    options = {}
   ) => {
 
-    if (!element) {
+    if (
+      !element ||
+      typeof element.animate !== "function"
+    ) {
       return Promise.resolve();
     }
 
-
-    return element
-      .animate(
+    const animation =
+      element.animate(
         keyframes,
         options
-      )
-      .finished
-      .catch(() => {});
+      );
 
+    return animation.finished.catch(() => {});
   };
 
+
+  const wait = duration =>
+    new Promise(resolve => {
+      window.setTimeout(resolve, duration);
+    });
 
 
   /* ======================================================
@@ -106,369 +88,366 @@
 
   if (reduceMotion) {
 
-    document.body.classList.remove(
-      "is-loading"
-    );
-
+    body.classList.remove("is-loading");
 
     if (intro) {
+      intro.hidden = true;
       intro.style.display = "none";
     }
 
+    if (header) {
+      header.style.opacity = "1";
+      header.style.transform = "none";
+    }
+
+    if (heroTop) {
+      heroTop.style.opacity = "1";
+    }
+
+    if (first) {
+      first.style.opacity = "1";
+      first.style.transform = "none";
+    }
+
+    if (middle) {
+      middle.style.opacity = "1";
+      middle.style.transform = "none";
+    }
+
+    if (last) {
+      last.style.opacity = "1";
+      last.style.transform = "none";
+    }
+
+    if (photoReveal) {
+      photoReveal.style.clipPath = "none";
+    }
+
+    if (image) {
+      image.style.transform = "none";
+    }
+
+    if (footer) {
+      footer.style.opacity = "1";
+      footer.style.transform = "none";
+    }
 
     return;
-
   }
-
-
-
-  /* ======================================================
-     INTRO
-  ====================================================== */
-
-  async function introSequence() {
-
-    await play(
-
-      introBrand,
-
-      [
-        {
-          transform:
-            "translateY(115%)"
-        },
-        {
-          transform:
-            "translateY(0)"
-        }
-      ],
-
-      {
-        duration: 560,
-        easing:
-          "cubic-bezier(.16,1,.3,1)",
-        fill: "forwards"
-      }
-
-    );
-
-
-    play(
-
-      introCaption,
-
-      [
-        {
-          opacity: 0,
-          transform:
-            "translateY(5px)"
-        },
-        {
-          opacity: 1,
-          transform:
-            "translateY(0)"
-        }
-      ],
-
-      {
-        duration: 450,
-        fill: "forwards"
-      }
-
-    );
-
-
-    await play(
-
-      introRule,
-
-      [
-        {
-          transform:
-            "scaleX(0)"
-        },
-        {
-          transform:
-            "scaleX(1)"
-        }
-      ],
-
-      {
-        duration: 380,
-        easing:
-          "cubic-bezier(.16,1,.3,1)",
-        fill: "forwards"
-      }
-
-    );
-
-
-    await new Promise(
-      resolve =>
-        setTimeout(resolve, 120)
-    );
-
-
-    await play(
-
-      intro,
-
-      [
-        {
-          clipPath:
-            "inset(0 0 0 0)"
-        },
-        {
-          clipPath:
-            "inset(0 0 100% 0)"
-        }
-      ],
-
-      {
-        duration: 680,
-        easing:
-          "cubic-bezier(.76,0,.24,1)",
-        fill: "forwards"
-      }
-
-    );
-
-
-    intro.style.display = "none";
-
-
-    document.body.classList.remove(
-      "is-loading"
-    );
-
-
-    heroEntrance();
-
-  }
-
 
 
   /* ======================================================
      HERO ENTRANCE
   ====================================================== */
 
+  let heroHasEntered = false;
+
+
   function heroEntrance() {
 
+    if (heroHasEntered) {
+      return;
+    }
+
+    heroHasEntered = true;
+
+
     play(
-
       header,
-
       [
         {
           opacity: 0,
-          transform:
-            "translateY(-12px)"
+          transform: "translate3d(0,-12px,0)"
         },
         {
           opacity: 1,
-          transform:
-            "translateY(0)"
+          transform: "translate3d(0,0,0)"
         }
       ],
-
       {
         duration: 650,
-        easing:
-          "cubic-bezier(.16,1,.3,1)",
+        easing: easeOut,
         fill: "forwards"
       }
-
     );
 
 
     play(
-
       heroTop,
-
       [
-        {
-          opacity: 0
-        },
-        {
-          opacity: 1
-        }
+        { opacity: 0 },
+        { opacity: 1 }
       ],
-
       {
         duration: 650,
         delay: 100,
+        easing: easeOut,
         fill: "forwards"
       }
-
     );
 
 
     play(
-
       first,
-
       [
         {
-          transform:
-            "translateY(115%)"
+          transform: "translate3d(0,115%,0)"
         },
         {
-          transform:
-            "translateY(0)"
+          transform: "translate3d(0,0,0)"
         }
       ],
-
       {
         duration: 900,
         delay: 100,
-        easing:
-          "cubic-bezier(.16,1,.3,1)",
+        easing: easeOut,
         fill: "forwards"
       }
-
     );
 
 
     play(
-
       photoReveal,
-
       [
         {
-          clipPath:
-            "inset(0 100% 0 0)"
+          clipPath: "inset(0 100% 0 0)"
         },
         {
-          clipPath:
-            "inset(0 0% 0 0)"
+          clipPath: "inset(0 0 0 0)"
         }
       ],
-
       {
         duration: 1050,
         delay: 270,
-        easing:
-          "cubic-bezier(.16,1,.3,1)",
+        easing: easeOut,
         fill: "forwards"
       }
-
     );
 
 
     play(
-
       image,
-
       [
         {
-          transform:
-            "scale(1.09)"
+          transform: "scale(1.09)"
         },
         {
-          transform:
-            "scale(1.025)"
+          transform: "scale(1.025)"
         }
       ],
-
       {
         duration: 1450,
         delay: 270,
-        easing:
-          "cubic-bezier(.16,1,.3,1)",
+        easing: easeOut,
         fill: "forwards"
       }
-
     );
 
 
     play(
-
       middle,
-
       [
         {
           opacity: 0,
-          transform:
-            "translateX(-40px)"
+          transform: "translate3d(-40px,0,0)"
         },
         {
           opacity: 1,
-          transform:
-            "translateX(0)"
+          transform: "translate3d(0,0,0)"
         }
       ],
-
       {
         duration: 800,
         delay: 620,
-        easing:
-          "cubic-bezier(.16,1,.3,1)",
+        easing: easeOut,
         fill: "forwards"
       }
-
     );
 
 
     play(
-
       last,
-
       [
         {
-          transform:
-            "translateY(115%)"
+          transform: "translate3d(0,115%,0)"
         },
         {
-          transform:
-            "translateY(0)"
+          transform: "translate3d(0,0,0)"
         }
       ],
-
       {
         duration: 950,
         delay: 710,
-        easing:
-          "cubic-bezier(.16,1,.3,1)",
+        easing: easeOut,
         fill: "forwards"
       }
-
     );
 
 
     play(
-
       footer,
-
       [
         {
           opacity: 0,
-          transform:
-            "translateY(18px)"
+          transform: "translate3d(0,18px,0)"
         },
         {
           opacity: 1,
-          transform:
-            "translateY(0)"
+          transform: "translate3d(0,0,0)"
         }
       ],
-
       {
         duration: 720,
         delay: 980,
-        easing:
-          "cubic-bezier(.16,1,.3,1)",
+        easing: easeOut,
         fill: "forwards"
       }
-
     );
-
   }
 
+
+  /* ======================================================
+     INTRO
+  ====================================================== */
+
+  let introHasRun = false;
+
+
+  async function introSequence() {
+
+    if (introHasRun) {
+      return;
+    }
+
+    introHasRun = true;
+
+
+    if (!intro) {
+
+      body.classList.remove("is-loading");
+
+      heroEntrance();
+
+      return;
+    }
+
+
+    await play(
+      introBrand,
+      [
+        {
+          transform: "translate3d(0,115%,0)"
+        },
+        {
+          transform: "translate3d(0,0,0)"
+        }
+      ],
+      {
+        duration: 560,
+        easing: easeOut,
+        fill: "forwards"
+      }
+    );
+
+
+    play(
+      introCaption,
+      [
+        {
+          opacity: 0,
+          transform: "translate3d(0,5px,0)"
+        },
+        {
+          opacity: 1,
+          transform: "translate3d(0,0,0)"
+        }
+      ],
+      {
+        duration: 450,
+        easing: easeOut,
+        fill: "forwards"
+      }
+    );
+
+
+    await play(
+      introRule,
+      [
+        {
+          transform: "scaleX(0)"
+        },
+        {
+          transform: "scaleX(1)"
+        }
+      ],
+      {
+        duration: 380,
+        easing: easeOut,
+        fill: "forwards"
+      }
+    );
+
+
+    await wait(120);
+
+
+    await play(
+      intro,
+      [
+        {
+          clipPath: "inset(0 0 0 0)"
+        },
+        {
+          clipPath: "inset(0 0 100% 0)"
+        }
+      ],
+      {
+        duration: 680,
+        easing: easeEditorial,
+        fill: "forwards"
+      }
+    );
+
+
+    intro.hidden = true;
+    intro.style.display = "none";
+
+    body.classList.remove("is-loading");
+
+    heroEntrance();
+  }
 
 
   /* ======================================================
      IMAGE PARALLAX
   ====================================================== */
+
+  let heroInView = true;
+
+
+  if (
+    "IntersectionObserver" in window &&
+    hero
+  ) {
+
+    const heroVisibilityObserver =
+      new IntersectionObserver(
+        entries => {
+
+          if (entries[0]) {
+            heroInView = entries[0].isIntersecting;
+          }
+
+        },
+        {
+          rootMargin: "20% 0px 20% 0px",
+          threshold: 0
+        }
+      );
+
+    heroVisibilityObserver.observe(hero);
+  }
+
 
   if (
     finePointer &&
@@ -483,74 +462,64 @@
 
 
     window.addEventListener(
-
       "mousemove",
-
       event => {
+
+        if (!heroInView) {
+          return;
+        }
 
         targetX =
           event.clientX /
           window.innerWidth -
-          .5;
-
+          0.5;
 
         targetY =
           event.clientY /
           window.innerHeight -
-          .5;
+          0.5;
 
       },
-
       {
         passive: true
       }
-
     );
 
 
-    function parallax() {
+    const parallax = () => {
 
-      currentX +=
-        (
-          targetX -
-          currentX
-        ) * .045;
+      if (heroInView) {
 
+        currentX +=
+          (targetX - currentX) * 0.045;
 
-      currentY +=
-        (
-          targetY -
-          currentY
-        ) * .045;
+        currentY +=
+          (targetY - currentY) * 0.045;
 
 
-      if (
-        window.scrollY <
-        window.innerHeight
-      ) {
+        if (
+          window.scrollY <
+          window.innerHeight * 1.1
+        ) {
 
-        image.style.transform =
-          `scale(1.025)
-           translate3d(
-             ${currentX * -10}px,
-             ${currentY * -8}px,
-             0
-           )`;
+          image.style.transform =
+            `scale(1.025)
+             translate3d(
+               ${currentX * -10}px,
+               ${currentY * -8}px,
+               0
+             )`;
+
+        }
 
       }
 
-
-      requestAnimationFrame(
-        parallax
-      );
-
-    }
+      requestAnimationFrame(parallax);
+    };
 
 
-    parallax();
-
+    requestAnimationFrame(parallax);
   }
-
 
 
   /* ======================================================
@@ -558,6 +527,23 @@
   ====================================================== */
 
   let ticking = false;
+  let heroHeight = 0;
+
+
+  const updateHeroMeasurements = () => {
+
+    heroHeight =
+      hero
+        ? Math.max(
+            hero.offsetHeight,
+            1
+          )
+        : 1;
+
+  };
+
+
+  updateHeroMeasurements();
 
 
   function heroScroll() {
@@ -567,12 +553,7 @@
       ticking = false;
 
       return;
-
     }
-
-
-    const heroHeight =
-      hero.offsetHeight;
 
 
     const value =
@@ -587,7 +568,8 @@
 
 
     /*
-       MOHAMMAD moves left.
+      MOHAMMAD:
+      subtle separation to the left.
     */
 
     if (first) {
@@ -599,15 +581,19 @@
           0
         )`;
 
-
       first.style.opacity =
-        1 - value * .72;
-
+        String(
+          Math.max(
+            0,
+            1 - value * 0.72
+          )
+        );
     }
 
 
     /*
-       MEHDI moves left/down slightly.
+      MEHDI:
+      moves left and slightly down.
     */
 
     if (middle) {
@@ -619,15 +605,19 @@
           0
         )`;
 
-
       middle.style.opacity =
-        1 - value * .9;
-
+        String(
+          Math.max(
+            0,
+            1 - value * 0.9
+          )
+        );
     }
 
 
     /*
-       ABRISHAMI separates to right.
+      ABRISHAMI:
+      separates to the right.
     */
 
     if (last) {
@@ -639,136 +629,162 @@
           0
         )`;
 
-
       last.style.opacity =
-        1 - value * .72;
-
+        String(
+          Math.max(
+            0,
+            1 - value * 0.72
+          )
+        );
     }
 
 
     /*
-       Photograph becomes slightly larger
-       as About approaches.
+      Portrait:
+      very subtle scale into the next section.
     */
 
     if (photo) {
 
       const scale =
-        1 + value * .12;
-
+        1 + value * 0.12;
 
       const mobile =
         window.innerWidth <= 900;
 
 
-      if (mobile) {
-
-        photo.style.transform =
-          `translate(-50%, -50%)
-           scale(${scale})`;
-
-      } else {
-
-        photo.style.transform =
-          `translate(-43%, -48%)
-           scale(${scale})`;
-
-      }
-
+      photo.style.transform =
+        mobile
+          ? `translate3d(-50%,-50%,0)
+             scale(${scale})`
+          : `translate3d(-43%,-48%,0)
+             scale(${scale})`;
     }
 
 
     /*
-       Footer disappears before transition.
+      Hero footer:
+      disappears before section transition.
     */
 
     if (footer) {
 
       footer.style.opacity =
-        Math.max(
-          0,
-          1 - value * 1.55
+        String(
+          Math.max(
+            0,
+            1 - value * 1.55
+          )
         );
 
-
       footer.style.transform =
-        `translateY(
-          ${value * 22}px
+        `translate3d(
+          0,
+          ${value * 22}px,
+          0
         )`;
-
     }
 
 
     /*
-       Bottom progress.
+      Bottom progress.
     */
 
     if (progress) {
 
       progress.style.width =
         `${value * 100}%`;
-
     }
 
 
     ticking = false;
-
   }
 
 
+  const requestHeroScroll = () => {
+
+    if (
+      ticking ||
+      !heroInView
+    ) {
+      return;
+    }
+
+    ticking = true;
+
+    requestAnimationFrame(heroScroll);
+  };
+
+
   window.addEventListener(
-
     "scroll",
-
-    () => {
-
-      if (ticking) {
-        return;
-      }
-
-
-      requestAnimationFrame(
-        heroScroll
-      );
-
-
-      ticking = true;
-
-    },
-
+    requestHeroScroll,
     {
       passive: true
     }
-
   );
 
+
+  window.addEventListener(
+    "resize",
+    () => {
+
+      updateHeroMeasurements();
+      requestHeroScroll();
+
+    },
+    {
+      passive: true
+    }
+  );
+
+
+  /* ======================================================
+     PAGE VISIBILITY
+  ====================================================== */
+
+  doc.addEventListener(
+    "visibilitychange",
+    () => {
+
+      if (
+        !doc.hidden &&
+        heroInView
+      ) {
+        requestHeroScroll();
+      }
+
+    }
+  );
 
 
   /* ======================================================
      START
   ====================================================== */
 
-  if (
-    document.readyState ===
-    "complete"
-  ) {
+  const start = () => {
+
+    updateHeroMeasurements();
 
     introSequence();
+
+    requestHeroScroll();
+  };
+
+
+  if (doc.readyState === "complete") {
+
+    start();
 
   } else {
 
     window.addEventListener(
-
       "load",
-
-      introSequence,
-
+      start,
       {
         once: true
       }
-
     );
-
   }
 
 })();

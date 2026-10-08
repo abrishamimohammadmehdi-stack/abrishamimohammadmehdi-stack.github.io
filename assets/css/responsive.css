@@ -408,3 +408,193 @@
   }
 
 }
+
+
+/* =========================================================
+   FINAL POLISH 03 — RESPONSIVE SYSTEM
+   Keeps the approved editorial composition while improving
+   readability, spacing and touch ergonomics on smaller screens.
+========================================================= */
+
+/* Fluid gutters across laptop / tablet / mobile. */
+@media (max-width: 1200px) {
+  .container,
+  .nav,
+  .hero__inner,
+  .site-footer {
+    --page-gutter: clamp(24px, 4vw, 56px);
+  }
+}
+
+@media (max-width: 900px) {
+  /* Keep section rhythm generous without wasting vertical space. */
+  section {
+    scroll-margin-top: 76px;
+  }
+
+  /* Long descriptive lines should never span the full viewport. */
+  .career-item p,
+  .profile-data__value,
+  .contact-location address p {
+    max-width: 68ch;
+  }
+
+  /* Touch targets: visual size stays compact, hit area becomes safer. */
+  .nav__links a,
+  .nav__cv,
+  .contact-link,
+  .site-footer__navigation a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* Prevent long email/address strings from breaking the layout. */
+  .contact-primary__value,
+  .contact-link__value,
+  .contact-location address,
+  .site-footer a {
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+}
+
+@media (max-width: 700px) {
+  /*
+    Preserve the dramatic headings, but keep them inside the viewport.
+    Existing section-specific sizes still control the visual hierarchy.
+  */
+  .hero__title,
+  .profile__statement,
+  .training__title,
+  .contact__title,
+  .recognition__title,
+  .education__title {
+    max-width: 100%;
+    overflow-wrap: normal;
+  }
+
+  /* More comfortable reading measure on phones. */
+  .career-item p {
+    max-width: 100%;
+  }
+
+  .course__source,
+  .profile-data__caption {
+    line-height: 1.55;
+  }
+
+  /* Skill rows need breathing room for label + percentage. */
+  .capability {
+    padding-block: clamp(16px, 4vw, 22px);
+  }
+
+  .capability__top {
+    gap: 16px;
+    align-items: baseline;
+  }
+}
+
+@media (max-width: 560px) {
+  /* Global phone gutter. */
+  :root {
+    --mobile-gutter: 20px;
+  }
+
+  /* Avoid accidental horizontal scroll from oversized editorial elements. */
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  /* Improve mobile section rhythm. */
+  .section-head {
+    margin-bottom: clamp(24px, 7vw, 40px);
+  }
+
+  /* Make metadata readable while preserving its compact editorial role. */
+  .profile__top-meta,
+  .training__range,
+  .contact__top-meta {
+    line-height: 1.5;
+  }
+
+  .career-item p,
+  .profile-data__value,
+  .profile-fact__value,
+  .contact-location address p {
+    line-height: 1.7;
+  }
+
+  /* Interactive links should be easy to tap. */
+  .contact-link,
+  .site-footer__navigation a,
+  .nav__cv {
+    min-height: 44px;
+  }
+
+  /* Keep percentages aligned even with longer skill labels. */
+  .capability__top {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 14px;
+  }
+
+  .capability__top > span:nth-child(2) {
+    min-width: 0;
+  }
+
+  .capability__top strong {
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 380px) {
+  /*
+    Very small phones: protect the design from clipping without
+    shrinking informative text back to unreadable sizes.
+  */
+  .contact-primary__value,
+  .contact-link__value {
+    font-size: clamp(1rem, 5.2vw, 1.2rem);
+  }
+
+  .capability__top {
+    column-gap: 10px;
+  }
+}
+
+/* Device accessibility preferences. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Better output if the page is printed or saved as PDF. */
+@media print {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  nav,
+  .scroll-cue,
+  .cursor,
+  .cursor-dot {
+    display: none !important;
+  }
+
+  body {
+    background: #fff !important;
+    color: #111 !important;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}

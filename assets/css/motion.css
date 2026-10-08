@@ -126,3 +126,113 @@
   }
 
 }
+
+
+/* =========================================================
+   FINAL POLISH 04 — MOTION SYSTEM
+   Smooth, restrained editorial motion. GPU-friendly properties only.
+========================================================= */
+
+:root {
+  --motion-fast: 180ms;
+  --motion-base: 420ms;
+  --motion-slow: 760ms;
+  --ease-out-expo: cubic-bezier(.16, 1, .3, 1);
+  --ease-out-quart: cubic-bezier(.25, 1, .5, 1);
+}
+
+/* Rendering hints only while elements are expected to move. */
+[data-reveal],
+.reveal,
+.reveal-up,
+.reveal-line,
+.reveal-word {
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+/* Keep interactive motion subtle; no layout-affecting animation. */
+.magnetic,
+.nav__links a,
+.nav__cv,
+.contact-link,
+.site-footer__navigation a,
+.capability {
+  transition-timing-function: var(--ease-out-expo);
+}
+
+/* Editorial links: crisp response without distracting bounce. */
+.nav__links a,
+.nav__cv,
+.contact-link,
+.site-footer__navigation a {
+  transition-duration: var(--motion-fast);
+}
+
+/* Skills feel responsive while remaining lightweight. */
+.capability {
+  transition:
+    background-color var(--motion-base) var(--ease-out-expo),
+    color var(--motion-base) var(--ease-out-expo),
+    transform var(--motion-base) var(--ease-out-expo);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .capability:hover {
+    transform: translate3d(0, -2px, 0);
+  }
+
+  .contact-link:hover,
+  .site-footer__navigation a:hover {
+    transform: translate3d(2px, 0, 0);
+  }
+}
+
+/*
+  Mobile devices do not benefit from cursor/magnetic hover choreography.
+  Removing it avoids sticky hover states and unnecessary compositing.
+*/
+@media (hover: none), (pointer: coarse) {
+  .cursor,
+  .cursor-dot {
+    display: none !important;
+  }
+
+  .magnetic,
+  .capability,
+  .contact-link,
+  .site-footer__navigation a {
+    transform: none !important;
+  }
+}
+
+/* Reduced motion is a first-class mode, not an afterthought. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  [data-reveal],
+  .reveal,
+  .reveal-up,
+  .reveal-line,
+  .reveal-word,
+  .is-revealed,
+  .is-visible {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    filter: none !important;
+  }
+
+  .marquee,
+  .ticker,
+  .marquee__track,
+  .ticker__track {
+    animation: none !important;
+    transform: none !important;
+  }
+}

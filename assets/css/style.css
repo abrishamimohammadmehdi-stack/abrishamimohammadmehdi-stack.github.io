@@ -5782,3 +5782,221 @@ button {
   }
 
 }
+
+
+/* =========================================================
+   FINAL POLISH 02 — PRODUCTION TYPOGRAPHY
+   Readability without changing the approved editorial layout.
+========================================================= */
+
+:root {
+  --text-xs: clamp(0.6875rem, 0.18vw + 0.64rem, 0.78rem);
+  --text-sm: clamp(0.8125rem, 0.20vw + 0.76rem, 0.92rem);
+  --text-base: clamp(0.95rem, 0.22vw + 0.89rem, 1.08rem);
+  --text-body: clamp(1rem, 0.28vw + 0.92rem, 1.18rem);
+}
+
+/* Better keyboard accessibility without changing mouse interaction. */
+:where(a, button, [tabindex]):focus-visible {
+  outline: 2px solid var(--lime);
+  outline-offset: 4px;
+}
+
+/* Prevent anchored sections from hiding beneath the fixed navigation. */
+:where(section, footer)[id] {
+  scroll-margin-top: 88px;
+}
+
+/*
+  Editorial labels used to drop to 7–9px in several sections.
+  Keep the compact uppercase language, but never at unreadable sizes.
+*/
+.section-head,
+.profile__top-meta,
+.training__range,
+.contact__top-meta,
+.profile__kicker,
+.training__kicker,
+.contact__kicker,
+.profile__statement > span,
+.training__hero-side > span,
+.contact__hero-meta > span,
+.learning-era__year small,
+.course__index,
+.degree__number,
+.profile-fact__number,
+.profile-fact__label,
+.capabilities__intro > span,
+.contact-primary__label,
+.contact-link__index,
+.contact-link__type,
+.contact-location__label > span,
+.contact-location address > span,
+.site-footer__role,
+.site-footer__navigation a,
+.site-footer__end,
+.recognition__eyebrow,
+.recognition__side-number,
+.recognition__authority > span,
+.education__kicker,
+.education__intro > span {
+  font-size: var(--text-xs) !important;
+  line-height: 1.45;
+  letter-spacing: clamp(.08em, .12vw, .14em);
+}
+
+/* Secondary information should read as information, not decoration. */
+.course__source,
+.profile-data__caption {
+  font-size: var(--text-sm) !important;
+  line-height: 1.55;
+  letter-spacing: .04em;
+}
+
+/* Long-form copy: comfortable on both desktop and mobile. */
+.career-item p {
+  font-size: var(--text-sm) !important;
+  line-height: 1.7 !important;
+  opacity: .86 !important;
+  max-width: 72ch;
+}
+
+.profile-data__value,
+.profile-fact__value,
+.contact-location address p {
+  font-size: var(--text-base);
+  line-height: 1.65;
+}
+
+/* Navigation remains elegant but no longer microscopic. */
+.nav__links a,
+.nav__cv {
+  font-size: var(--text-xs);
+}
+
+/* Skills / capabilities: stronger hierarchy and easier scanning. */
+.capability__top > span:nth-child(2) {
+  font-size: clamp(1rem, .55vw + .86rem, 1.38rem);
+  line-height: 1.25;
+}
+
+.capability__top strong {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Avoid text looking too faint on high-density displays. */
+.course__source,
+.profile-data__caption,
+.contact-link__type,
+.contact-link__index,
+.site-footer__role {
+  opacity: .9;
+}
+
+/* Text selection follows the visual identity. */
+::selection {
+  background: var(--lime);
+  color: var(--black);
+}
+
+/* =========================================================
+   RESPONSIVE READABILITY
+========================================================= */
+
+@media (max-width: 900px) {
+  :root {
+    --text-xs: clamp(0.72rem, 1.55vw, 0.82rem);
+    --text-sm: clamp(0.84rem, 1.8vw, 0.96rem);
+    --text-base: clamp(0.96rem, 2vw, 1.08rem);
+    --text-body: clamp(1rem, 2.1vw, 1.12rem);
+  }
+
+  .career-item p {
+    max-width: 66ch;
+  }
+}
+
+@media (max-width: 560px) {
+  :root {
+    --text-xs: 0.75rem;
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-body: 1.0625rem;
+  }
+
+  /*
+    Override the older 9px mobile micro-type rule.
+    12px is the absolute visual floor for secondary labels here.
+  */
+  .section-head,
+  .profile__top-meta,
+  .training__range,
+  .contact__top-meta,
+  .profile__kicker,
+  .training__kicker,
+  .contact__kicker,
+  .profile__statement > span,
+  .training__hero-side > span,
+  .contact__hero-meta > span,
+  .learning-era__year small,
+  .course__index,
+  .profile-fact__number,
+  .profile-fact__label,
+  .capabilities__intro > span,
+  .contact-primary__label,
+  .contact-link__index,
+  .contact-link__type,
+  .contact-location__label > span,
+  .contact-location address > span,
+  .site-footer__role,
+  .site-footer__navigation a,
+  .site-footer__end,
+  .recognition__eyebrow,
+  .recognition__side-number,
+  .recognition__authority > span,
+  .education__kicker,
+  .education__intro > span {
+    font-size: 12px !important;
+    line-height: 1.45;
+  }
+
+  .course__source,
+  .profile-data__caption {
+    font-size: 13px !important;
+  }
+
+  .career-item p {
+    font-size: 14px !important;
+    line-height: 1.7 !important;
+  }
+
+  .capability__top > span:nth-child(2) {
+    font-size: 15px;
+    line-height: 1.3;
+  }
+
+  .contact-location address p {
+    font-size: 15px;
+  }
+}
+
+/* =========================================================
+   MOTION SAFETY
+   Full motion tuning remains in motion.css; this guarantees
+   a usable no-motion experience even if JS is unavailable.
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
