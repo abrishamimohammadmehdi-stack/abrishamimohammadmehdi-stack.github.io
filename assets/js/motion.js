@@ -514,11 +514,11 @@
 
       }
 
-      requestAnimationFrame(parallax);
+      if (finePointer && !reduceMotion) requestAnimationFrame(parallax);
     };
 
 
-    requestAnimationFrame(parallax);
+    if (finePointer && !reduceMotion) requestAnimationFrame(parallax);
   }
 
 

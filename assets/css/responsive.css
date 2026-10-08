@@ -598,3 +598,29 @@
     text-decoration: none;
   }
 }
+
+/* ABRM final: mobile layout safeguards, preserving the editorial design. */
+html { overflow-x: clip; }
+body { min-width: 0; }
+img { max-width: 100%; }
+@media (max-width: 900px) {
+  .career__year-wrap { max-width: 100%; overflow: hidden; }
+  .career__year { font-size: clamp(28px, 7vw, 42px); }
+  .career-item { min-height: auto; }
+  .contact-links, .contact-link { min-width: 0; max-width: 100%; }
+  .contact-link__value, .contact-link strong,
+  .contact-primary__value { min-width: 0; overflow-wrap: anywhere; word-break: normal; }
+}
+@media (max-width: 700px) {
+  .career__sticky, .career__sidebar { position: relative !important; top: auto !important; }
+  .career__year-wrap { position: relative; z-index: 1; }
+  .career-item { padding-block: clamp(30px, 7vw, 56px); }
+  .contact-link { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; }
+  .contact-link__value, .contact-link strong { font-size: clamp(16px, 4.7vw, 24px); line-height: 1.3; letter-spacing: -.035em; }
+  .contact-name__main { font-size: clamp(50px, 13.2vw, 110px); letter-spacing: -.085em; margin-left: 0; }
+  .contact-location address p { overflow-wrap: anywhere; }
+  .site-footer { max-width: calc(100% + var(--side) * 2); overflow: hidden; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .line-mask > span { opacity: 1 !important; transform: none !important; }
+}
