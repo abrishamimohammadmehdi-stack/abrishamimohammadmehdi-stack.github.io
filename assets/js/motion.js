@@ -514,11 +514,11 @@
 
       }
 
-      if (finePointer && !reduceMotion) requestAnimationFrame(parallax);
+      requestAnimationFrame(parallax);
     };
 
 
-    if (finePointer && !reduceMotion) requestAnimationFrame(parallax);
+    requestAnimationFrame(parallax);
   }
 
 
@@ -548,7 +548,7 @@
 
   function heroScroll() {
 
-    if (!hero) {
+    if (!hero || !heroHasEntered) {
 
       ticking = false;
 
@@ -572,7 +572,7 @@
       subtle separation to the left.
     */
 
-    if (first) {
+    if (first && window.innerWidth > 900) {
 
       first.style.transform =
         `translate3d(
@@ -596,7 +596,7 @@
       moves left and slightly down.
     */
 
-    if (middle) {
+    if (middle && window.innerWidth > 900) {
 
       middle.style.transform =
         `translate3d(
@@ -620,7 +620,7 @@
       separates to the right.
     */
 
-    if (last) {
+    if (last && window.innerWidth > 900) {
 
       last.style.transform =
         `translate3d(
